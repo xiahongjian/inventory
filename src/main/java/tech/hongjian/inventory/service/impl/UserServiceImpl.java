@@ -1,19 +1,13 @@
 package tech.hongjian.inventory.service.impl;
 
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import tech.hongjian.inventory.entity.Role;
 import tech.hongjian.inventory.entity.User;
 import tech.hongjian.inventory.mapper.UserMapper;
-import tech.hongjian.inventory.service.RoleService;
 import tech.hongjian.inventory.service.UserService;
 
 /**
@@ -22,26 +16,16 @@ import tech.hongjian.inventory.service.UserService;
  * </p>
  *
  * @author xiahongjian
- * @since 2020-03-24
+ * @since 2020-09-27
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private RoleService roleService;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-        if (user == null) {
-            throw new UsernameNotFoundException("User[" + username + "] not existed.");
-        }
-        Set<Role> roles = roleService.getUserRoles(user.getId());
-        user.setRoles(roles);
-        return user;
+        
+        
+        return null;
     }
 
 }

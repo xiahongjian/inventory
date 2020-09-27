@@ -12,10 +12,14 @@ import tech.hongjian.inventory.entity.Menu;
  * </p>
  *
  * @author xiahongjian
- * @since 2020-03-25
+ * @since 2020-09-27
  */
 public interface MenuService extends IService<Menu> {
+
     List<Menu> getUserNavMenus(Integer userId);
 
     List<Menu> getBreadcrumb(String url);
+    
+    List<Menu> getAllMenues();
+
 }

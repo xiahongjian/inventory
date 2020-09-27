@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
-import tech.hongjian.inventory.entity.Indentify;
+import tech.hongjian.inventory.entity.BaseEntity;
 
 
 /** 
@@ -29,7 +29,7 @@ import tech.hongjian.inventory.entity.Indentify;
  */
 public class CodeGenerator {
     private static final String BASE_PACKAGE = "tech.hongjian.inventory";
-    private static final String DATA_SOURCE_URL = "jdbc:mysql://localhost:3306/inventory?useUnicode=true&useSSL=false&characterEncoding=utf8";
+    private static final String DATA_SOURCE_URL = "jdbc:mysql://localhost:3306/inventory?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC";
     private static final String DATA_SOURCE_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_USERANME = "root";
     private static final String DB_PASSWORD = "root";
@@ -138,14 +138,13 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass(Indentify.class.getName());
+        strategy.setSuperEntityClass(BaseEntity.class);
         strategy.setEntityLombokModel(true);
 //        strategy.setRestControllerStyle(true);
         // 公共父类
 //        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
         // 写于父类中的公共字段
-//        strategy.setSuperEntityColumns("id", "create_time", "update_time");
-        strategy.setSuperEntityColumns("id");
+        strategy.setSuperEntityColumns("id", "create_time", "update_time");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
 //        strategy.setTablePrefix(pc.getModuleName() + "_");

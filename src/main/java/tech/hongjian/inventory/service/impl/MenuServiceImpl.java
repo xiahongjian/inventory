@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import tech.hongjian.inventory.entity.Menu;
+import tech.hongjian.inventory.entity.Permission;
 import tech.hongjian.inventory.mapper.MenuMapper;
 import tech.hongjian.inventory.service.MenuService;
+import tech.hongjian.inventory.service.PermissionService;
 
 /**
  * <p>
@@ -30,13 +32,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Autowired
     private MenuMapper menuMapper;
+    
+    @Autowired
+    private PermissionService permissionService;
 
     @Override
     public List<Menu> getUserNavMenus(Integer userId) {
         if (userId == null) {
             return Collections.emptyList();
         }
-        List<Menu> menus = menuMapper.getUserNavMenus(userId);
+        
+        List<Permission> permissions = permissionService.getUserPermission(userId);
+        if (permissions.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        List<Menu> menus = getAllMenues().stream().filter(m -> checkPermission(m, permissions)).collect(Collectors.toList());
+        
         Map<Integer, Menu> map = new HashMap<>();
         menus.forEach(m -> {
             map.put(m.getId(), m);
@@ -48,9 +60,25 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             }
             Menu parent = map.get(parentId);
             List<Menu> subMenus = parent.getSubMenus();
-            subMenus.add(map.get(m.getId()));
+            subMenus.add(m);
         });
         return menus.stream().filter(m -> m.getParentId() == null).collect(Collectors.toList());
+    }
+    
+    private List<Menu> 
+    
+    private boolean checkPermission(Menu menu, List<Permission> permissions) {
+        String url = menu.getUrl();
+        // 当menu的url为null时，不显示
+        if (url == null) {
+            return false;
+        }
+        for (Permission permission : permissions) {
+            if (url.equals(permission.getUrl()) || permission.getUrl().startsWith(url)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -72,6 +100,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             list.add(breadcrumbs.pop());
         }
         return list;
+    }
+
+    @Override
+    public List<Menu> getAllMenues() {
+        return menuMapper.findAll();
     }
 
 }

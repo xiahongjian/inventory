@@ -1,10 +1,10 @@
 package tech.hongjian.inventory.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
+import java.util.List;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import tech.hongjian.inventory.entity.User;
+import tech.hongjian.inventory.entity.Permission;
 
 /**
  * <p>
@@ -14,6 +14,6 @@ import tech.hongjian.inventory.entity.User;
  * @author xiahongjian
  * @since 2020-09-27
  */
-public interface UserService extends IService<User>, UserDetailsService {
-
+public interface PermissionService extends IService<Permission> {
+    public List<Permission> getUserPermission(Integer userId);
 }

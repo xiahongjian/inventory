@@ -1,8 +1,8 @@
 package tech.hongjian.inventory.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +17,12 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author xiahongjian
- * @since 2020-03-25
+ * @since 2020-09-27
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class User extends Indentify implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,32 +30,34 @@ public class User extends Indentify implements UserDetails {
 
     private String password;
 
-    private Integer companyId;
-
-    private Set<Role> roles = new HashSet<>();
+    private String name;
+    
+    private List<Permission> permissions = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return permissions;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
+
+
 }

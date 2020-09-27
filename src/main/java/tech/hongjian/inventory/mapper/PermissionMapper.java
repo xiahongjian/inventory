@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import tech.hongjian.inventory.entity.Menu;
+import tech.hongjian.inventory.entity.Permission;
 
 /**
  * <p>
@@ -14,10 +14,6 @@ import tech.hongjian.inventory.entity.Menu;
  * @author xiahongjian
  * @since 2020-09-27
  */
-public interface MenuMapper extends BaseMapper<Menu> {
-
-    List<Menu> getUserNavMenus(Integer userId);
-
-    List<Menu> findAll();
-
+public interface PermissionMapper extends BaseMapper<Permission> {
+    public List<Permission> findByUserId(Integer userId);
 }

@@ -1,7 +1,6 @@
 package tech.hongjian.inventory.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class Menu extends BaseEntity {
+public class Permission extends BaseEntity implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,11 +25,14 @@ public class Menu extends BaseEntity {
 
     private String url;
 
-    private Integer sort;
+    private String operation;
 
-    private String iconClass;
+    private String group;
 
-    private Integer parentId;
+    @Override
+    public String getAuthority() {
+        return url + ";" + operation;
+    }
 
-    private List<Menu> subMenus = new ArrayList<>();
+
 }
